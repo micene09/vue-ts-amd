@@ -2,7 +2,7 @@
 	<div class="container-fluid">
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li v-bind:key="index" v-for="(link, index) of links">
+				<li v-bind:key="index" v-for="(link, index) in links">
 					<router-link :to="link.path">{{link.name}}</router-link>
 				</li>
 			</ul>
