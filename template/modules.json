@@ -1,0 +1,34 @@
+{
+	"vue": {
+		"min": "/node_modules/vue/dist/vue.min.js",
+		"max": "/node_modules/vue/dist/vue.js"
+	},
+	"vue-router": {
+		"min": "/node_modules/vue-router/dist/vue-router.min.js",
+		"max": "/node_modules/vue-router/dist/vue-router.js"
+	},
+	"reflect-metadata": {
+		"max": "/node_modules/reflect-metadata/Reflect.js"
+	},
+	"vue-class-component": {
+		"min": "/node_modules/vue-class-component/dist/vue-class-component.min.js",
+		"max": "/node_modules/vue-class-component/dist/vue-class-component.js"
+	},
+	"vue-property-decorator": {
+		"max": "/node_modules/vue-property-decorator/lib/vue-property-decorator.umd.js"
+	},
+	"require-vuejs": {
+		"min": "/node_modules/require-vuejs/dist/require-vuejs.min.js",
+		"max": "/node_modules/require-vuejs/dist/require-vuejs.js"
+	},
+	"require": {
+		"max": "/node_modules/requirejs/require.js"
+	},
+	"text": {
+		"max": "/node_modules/text/text.js"
+	},
+	"css": {
+		"min": "/node_modules/require-css/css.min.js",
+		"max": "/node_modules/require-css/css.js"
+	}
+}
