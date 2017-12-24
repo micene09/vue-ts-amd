@@ -1,0 +1,5 @@
+*.js linguist-language=JavaScript
+*.ts linguist-language=TypeScript
+*.scss linguist-language=Sass
+*.md text
+*.json text

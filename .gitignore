@@ -2,3 +2,4 @@
 node_modules
 template/build
 template/release
+*.code-workspace
