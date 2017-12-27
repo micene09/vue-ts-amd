@@ -2,4 +2,5 @@
 node_modules
 template/build
 template/release
+template/coverage
 *.code-workspace
