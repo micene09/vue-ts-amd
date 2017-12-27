@@ -11,14 +11,12 @@
 		"noUnusedLocals": false,
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
-		"types": [
-			"requirejs",
-			"mocha"
-		],
+		"types": [ "requirejs", "mocha", "chai" ],
 		"allowSyntheticDefaultImports": true
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"test/**/*"
 	],
-	"exclude": ["node_modules", "scripts", "test"]
+	"exclude": ["node_modules", "scripts"]
 }
