@@ -1,13 +1,24 @@
-import * as Vue from "vue";
-import Component from "vue-class-component";
-import "text!./about.html";
-import "require-vuejs!/components/about-widget";
+import { VueConstructor } from "vue";
+import { Vue } from "vue/types/vue";
+import { Component as DComponent } from "vue-property-decorator";
 
-@Component({
-	template: require("text!./about.html")
-})
-export default class AboutComponent extends Vue {
-	mounted() {
-		console.log("about is mounted!");
+define(["vue", "text!./about.html", "vue-property-decorator", "../../components/about-widget/about-widget"],
+		(Vue: VueConstructor, template: string, VueDecorators: any, AboutWidget: VueConstructor) => {
+
+	let Component: typeof DComponent = VueDecorators.Component;
+
+	@Component({
+		template: template,
+		components: {
+			AboutWidget: AboutWidget
+		}
+	})
+	class AboutComponent extends Vue {
+		mounted() {
+			console.log("about is mounted!");
+		}
 	}
-}
+
+	return AboutComponent;
+});
+

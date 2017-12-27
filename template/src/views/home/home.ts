@@ -1,19 +1,26 @@
-import * as Vue from "vue";
-import { Prop, Component } from "vue-property-decorator";
-import "text!./home.html";
-import "css!./home.css";
+import { VueConstructor } from "vue";
+import { Component as DComponent, Prop as DProp } from "vue-property-decorator";
 
-@Component({
-	template: require("text!./home.html")
-})
-export default class HomeComponent extends Vue {
-	@Prop({ default: "Design Pattern" })
-	homeName: String;
+define(["vue", "text!./home.html", "vue-property-decorator", "css!./home.css"],
+		(Vue: VueConstructor, template: string, VueDecorators: any) => {
 
-	helloMsg = "Entirely done using AMD "
-		+ this.homeName + "!";
+	let Component: typeof DComponent = VueDecorators.Component,
+		Prop: typeof DProp = VueDecorators.Prop;
 
-	mounted() {
-		console.log("home is mounted!");
+	@Component({
+		template: template
+	})
+	class HomeComponent extends Vue {
+
+		@Prop({ default: "Design Pattern" })
+		homeName: String;
+
+		helloMsg = "Entirely done using AMD "
+			+ this.homeName + "!";
+
+		mounted() {
+			console.log("home is mounted!");
+		}
 	}
-}
+	return HomeComponent;
+});

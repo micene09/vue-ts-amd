@@ -1,32 +1,35 @@
-import "./require.config";
-import * as Vue from "vue";
-import * as VueRouter from "vue-router";
-import Navbar from "./components/navbar/navbar";
-import "css!./main.css";
+import { VueConstructor } from "vue";
+import { RouterOptions } from "vue-router";
+import { INavbar } from "./components/navbar/navbar.interfaces";
 
-Vue.use(VueRouter);
+define(["./require.config", "vue", "vue-router", "./components/navbar/navbar", "css!./main.css"],
+	(config: any, Vue: VueConstructor, VueRouter: any, Navbar: INavbar) => {
 
-let AppRouter = new VueRouter({
-	linkActiveClass: "active",
-	routes: [
-		{
-			path: "/",
-			component: function(resolve: any) {
-				require(["./views/home/home"], resolve);
-			}
-		},
-		{
-			path: "/about",
-			component: function(resolve: any) {
-				require(["./views/about/about"], resolve);
-			}
+	Vue.use(VueRouter);
+
+	new Vue({
+		el: "#app-main",
+		router: new VueRouter({
+			linkActiveClass: "active",
+			routes: [
+				{
+					path: "/",
+					component: function(resolve: any) {
+						require(["./views/home/home"], resolve);
+					}
+				},
+				{
+					path: "/about",
+					component: function(resolve: any) {
+						require(["./views/about/about"], resolve);
+					}
+				}
+			]
+		} as RouterOptions),
+		components: {
+			navbar: Navbar as any
 		}
-	]
+	});
 });
-export let App: Vue = new Vue({
-	router: AppRouter,
-	components: {
-		navbar: Navbar
-	}
-});
-App.$mount("#app-main");
+
+

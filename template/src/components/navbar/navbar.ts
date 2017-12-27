@@ -1,38 +1,35 @@
-import * as Vue from "vue";
-import Component from "vue-class-component";
-import { Prop } from "vue-property-decorator";
-import "text!./navbar.html";
+import { VueConstructor } from "vue";
+import { Component as DComponent, Prop as DProp } from "vue-property-decorator";
+import { INavbar, LinkClass } from "./navbar.interfaces";
 
-// This is overkill but typescript is great! :)
-class LinkClass {
-	name: string;
-	path: string;
+define(["vue", "text!./navbar.html", "vue-property-decorator"],
+		(Vue: VueConstructor, template: string, VueDecorators: any) => {
 
-	constructor(name: string, path: string){
-		this.name = name;
-		this.path = path;
-	}
-}
+	let Component: typeof DComponent = VueDecorators.Component,
+		Prop: typeof DProp = VueDecorators.Prop;
 
-@Component({
-	name: "navbar",
-	template: require("text!./navbar.html")
-})
-export default class Navbar extends Vue {
-
-	@Prop({
-		default: true
+	@Component({
+		name: "navbar",
+		template: template
 	})
-	inverted: boolean;
+	class Navbar extends Vue implements INavbar {
 
-	object: { default: string } = { default: "The default string man!" };
+		@Prop({
+			default: true
+		})
+		inverted: boolean;
 
-	links: LinkClass[] = [
-		new LinkClass("Home", "/"),
-		new LinkClass("About", "/about")
-	];
+		object = { default: "The default string man!" };
 
-	ready(){
-		console.log( this.object.default );
+		links: LinkClass[] = [
+			{ name: "Home", path: "/" },
+			{ name: "About", path: "/about" }
+		];
+
+		ready(){
+			console.log( this.object.default );
+		}
 	}
-}
+
+	return Navbar;
+});
