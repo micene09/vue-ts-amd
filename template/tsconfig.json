@@ -1,27 +1,21 @@
 {
-	"compileOnSave": false,
-	"lib": ["dom", "es2015", "es5", "es6"],
 	"compilerOptions": {
 		"moduleResolution": "node",
-		"module": "amd",
+		"module": "es2015",
 		"removeComments": true,
-		"target": "es2015",
+		"target": "es5",
 		"noImplicitAny": true,
 		"baseUrl": "/",
 		"outDir": "./release/",
 		"sourceMap": true,
 		"noUnusedLocals": false,
-		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true,
-		"allowJs": false,
-		"paths": {
-			"Vue": ["/node_modules/vue/dist/vue.js"]
-		},
+		"skipLibCheck": true,
 		"types": [
 			"requirejs",
 			"mocha"
-		]
+		],
+		"allowSyntheticDefaultImports": true
 	},
 	"include": [
 		"src/**/*"
