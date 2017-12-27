@@ -2,7 +2,7 @@ var G = require("../Gulpfile"),
 	path = require("path"),
 	tsconfig = path.join( G.root, "tsconfig.json" ),
 	ts = require('gulp-typescript'),
-	uglify = require('gulp-uglify'),
+	uglify = require('gulp-uglify-es').default,
 	pump = require("pump"),
 	sourcemaps = require("gulp-sourcemaps"),
 	tsTasks = {
@@ -27,15 +27,14 @@ var G = require("../Gulpfile"),
 		compileMin: function(done) {
 			var tsProject = ts.createProject(tsconfig, {
 					baseUrl: G.baseUrl,
-					removeComments: true,
-					target: "es5" // << Uglify doesn't support ES6
+					removeComments: true
 				}),
 				dest = G.gulp.dest(G.releaseFolder),
 				tsCompiling = G.gulp.src(G.globPaths.ts)
-					.pipe(sourcemaps.init())
+					//.pipe(sourcemaps.init())
 					.pipe(tsProject())
 					.js.pipe(uglify())
-					.pipe(sourcemaps.write());
+					//.pipe(sourcemaps.write());
 			pump([
 				tsCompiling,
 				dest
