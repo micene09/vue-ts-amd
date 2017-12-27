@@ -34,9 +34,9 @@ var G = require("../Gulpfile"),
 			var pump = require("pump"),
 				dest = G.gulp.dest(G.releaseFolder),
 				task = G.gulp.src(G.globPaths.scss)
-					.pipe(sourcemaps.init())
+					//.pipe(sourcemaps.init())
 					.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-					.pipe(sourcemaps.write())
+					//.pipe(sourcemaps.write())
 					.pipe(dest);
 
 			G.emit("task-sass-compiled", task);
