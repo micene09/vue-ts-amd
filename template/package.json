@@ -16,7 +16,6 @@
 	},
 	"dependencies": {
 		"require-css": "^0.1.10",
-		"require-vuejs": "^1.0.9",
 		"requirejs": "^2.3.5",
 		"text": "github:requirejs/text",
 		"vue": "^2.5.13",
@@ -28,6 +27,7 @@
 		"@types/chai": "^4.0.4",
 		"@types/mocha": "^2.2.42",
 		"@types/requirejs": "^2.1.29",
+		"@types/vue-router": "^2.0.0",
 		"avoriaz": "^3.5.0",
 		"browser-sync": "^2.18.0",
 		"chai": "^4.1.1",
