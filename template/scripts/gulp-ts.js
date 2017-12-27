@@ -8,7 +8,9 @@ var G = require("../Gulpfile"),
 	tsTasks = {
 		compile: function(done) {
 			var tsProject = ts.createProject(tsconfig, {
-					baseUrl: G.baseUrl
+					baseUrl: G.baseUrl,
+					include: [G.globPaths.ts],
+					buildFolder: G.buildFolder
 				}),
 				dest = G.gulp.dest(G.buildFolder),
 				tsCompiling = tsProject.src()
@@ -27,12 +29,14 @@ var G = require("../Gulpfile"),
 		compileMin: function(done) {
 			var tsProject = ts.createProject(tsconfig, {
 					baseUrl: G.baseUrl,
+					include: [G.globPaths.ts],
+					buildFolder: G.buildFolder,
 					target: "es5" // << Uglify doesn't support ES6
 				}),
 				dest = G.gulp.dest(G.releaseFolder),
 				tsCompiling = tsProject.src()
 					.pipe(sourcemaps.init())
-					.pipe( tsProject() )
+					.pipe(tsProject())
 					.js
 						.pipe(uglify())
 						.pipe(sourcemaps.write());
