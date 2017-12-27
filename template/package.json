@@ -40,7 +40,7 @@
 		"gulp-sass": "^3.1.0",
 		"gulp-sequence": "^0.4.6",
 		"gulp-sourcemaps": "^2.6.0",
-		"gulp-typescript": "^3.2.1",
+		"gulp-typescript": "^3.2.3",
 		"gulp-uglify": "^3.0.0",
 		"karma": "^1.7.0",
 		"karma-chai": "^0.1.0",
