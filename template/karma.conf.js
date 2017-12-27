@@ -18,10 +18,7 @@ module.exports = function (config) {
 			"**/*.ts": ["karma-typescript"]
 		},
 		karmaTypescriptConfig: {
-			compilerOptions: (function(compilerOptions) {
-				compilerOptions.target = "ES5";
-				return compilerOptions;
-			})(require("./tsconfig.json").compilerOptions)
+			compilerOptions: ((compilerOptions) => compilerOptions )(require("./tsconfig.json").compilerOptions)
 		},
 		reporters: ['mocha', 'karma-typescript'],
 		port: 9876,
