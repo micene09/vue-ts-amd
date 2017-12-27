@@ -25,7 +25,7 @@
 	},
 	"devDependencies": {
 		"@types/chai": "^4.0.4",
-		"@types/mocha": "^2.2.42",
+		"@types/mocha": "^2.2.45",
 		"@types/requirejs": "^2.1.29",
 		"@types/vue-router": "^2.0.0",
 		"avoriaz": "^3.5.0",
