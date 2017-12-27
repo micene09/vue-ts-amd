@@ -2,8 +2,7 @@
 	"compilerOptions": {
 		"moduleResolution": "node",
 		"module": "es2015",
-		"removeComments": true,
-		"target": "es5",
+		"target": "es2015",
 		"noImplicitAny": true,
 		"baseUrl": "/",
 		"outDir": "./release/",
