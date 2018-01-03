@@ -1,9 +1,10 @@
-import { Vue } from "vue-property-decorator";
+import VueGlobal from "vue";
 import * as VueRouter from "vue-router";
 import "css!./main.css";
 import "./require.config";
 import Navbar from "./components/navbar/navbar";
 
+let Vue: typeof VueGlobal = require("vue");
 Vue.use(VueRouter);
 
 new Vue({
