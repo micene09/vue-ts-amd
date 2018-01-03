@@ -1,17 +1,11 @@
-import { VueConstructor } from "vue";
-import { Component as DComponent } from "vue-property-decorator";
+import { Vue, Component } from "vue-property-decorator";
+import "text!./about-widget.html";
+import "css!./about-widget.css";
 
-define(["vue", "text!./about-widget.html", "vue-property-decorator", "css!./about-widget.css"],
-		(Vue: VueConstructor, template: string, VueDecorators: any) => {
-
-	let Component: typeof DComponent = VueDecorators.Component;
-
-	@Component({
-		name: "about-widget",
-		template: template
-	})
-	class AboutWidget extends Vue {
-		widgetText: string = "Content by your about-widget.ts";
-	}
-	return AboutWidget;
-});
+@Component({
+	name: "about-widget",
+	template: require("text!./about-widget.html")
+})
+export default class AboutWidget extends Vue {
+	widgetText: string = "Content by your about-widget.ts";
+}
