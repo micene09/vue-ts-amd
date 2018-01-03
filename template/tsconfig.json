@@ -11,10 +11,7 @@
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
 		"skipLibCheck": true,
-		"types": [ "requirejs", "mocha", "chai" ],
-		"paths": {
-			"vue": ["./node_modules/vue/dist/vue.js"]
-		}
+		"types": [ "requirejs", "mocha", "chai" ]
 	},
 	"include": [
 		"./src/**/*",
