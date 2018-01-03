@@ -1,23 +1,23 @@
 {
 	"compilerOptions": {
-		"moduleResolution": "node",
 		"module": "amd",
+		"moduleResolution": "node",
 		"target": "es2015",
-		"noImplicitAny": true,
-		"baseUrl": "/",
+		"baseUrl": ".",
 		"outDir": "./release/",
 		"sourceMap": true,
+		"noImplicitAny": true,
 		"noUnusedLocals": false,
 		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
 		"skipLibCheck": true,
 		"types": [ "requirejs", "mocha", "chai" ],
 		"paths": {
-			"vue": ["node_modules/vue/dist/vue"]
+			"vue": ["./node_modules/vue/dist/vue.js"]
 		}
 	},
 	"include": [
-		"src/**/*",
-		"test/**/*"
-	],
-	"exclude": ["node_modules", "scripts"]
+		"./src/**/*",
+		"./test/**/*"
+	]
 }
