@@ -1,7 +1,7 @@
 {
 	"compilerOptions": {
 		"moduleResolution": "node",
-		"module": "es2015",
+		"module": "amd",
 		"target": "es2015",
 		"noImplicitAny": true,
 		"baseUrl": "/",
@@ -11,7 +11,9 @@
 		"experimentalDecorators": true,
 		"skipLibCheck": true,
 		"types": [ "requirejs", "mocha", "chai" ],
-		"allowSyntheticDefaultImports": true
+		"paths": {
+			"vue": ["node_modules/vue/dist/vue"]
+		}
 	},
 	"include": [
 		"src/**/*",
