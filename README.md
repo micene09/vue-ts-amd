@@ -66,14 +66,32 @@ In this way, you will be able to import your modules like this:
 
 ```typescript
 // typescript file:
-import * as Vue from "vue";
-import * as _ from "lodash";
+import { Vue } from "vue-property-decorator";
+import _ from "lodash";
+
+new Vue({...});
 
 // compiled javascript file:
-define(["vue", "lodash"], function(Vue, _) { /* more compiled code here */ });
+define(["vue", "lodash"], function(vue_property_decorator, _) {
+	new vue_property_decorator.Vue({...});
+});
 ```
 
-Becouse of Node/Typescript's environment, we will automatically keep typings definitions (if provided by the module's author) inside our modular AMD scripts (.ts).
+Because of moduleResolution strategy (node), we will automatically keep typings definitions (if provided by the module's author) inside our modular AMD scripts (.ts).
+
+Consider to use AMD/UMD version only for every 3rd party module to get everything working.
+
+Note that in the example provided, i'm using:
+```typescript
+// typescript file:
+import { Vue } from "vue-property-decorator";
+```
+instead of:
+```typescript
+// typescript file:
+import Vue from "vue";
+```
+...just to override the default Typescript's compiler resolution for Vue.js module, that will try to load the CommonJs version, while loading the reference from "vue-property-decorator" we will get the UMD version.
 
 ### Build processes explained
 
