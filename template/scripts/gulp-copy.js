@@ -1,38 +1,23 @@
-var G = require("../Gulpfile"),
+var G = require("../GulpConfig"),
 	del = require("del"),
 	path = require("path"),
 	flatten = require('gulp-flatten'),
 	pump = require("pump"),
-	copy = require("gulp-copy"),
-	seq = require('gulp-sequence'),
 	rename = require("gulp-rename"),
-	copyTasks = {
-		html_clean: function(done) {
-			del([G.globPaths.html_build]).then(function() {
-				done();
-			});
-		},
-		html: function(done) {
+	copyTasksDevelop = {
+		statics_clean: () => del([G.globPaths.static_build], { cwd: G.developFolder, force: true }),
+		statics: function(done) {
 			pump([
-				G.gulp.src(G.globPaths.html_src, { base: G.srcFolder }),
-				G.gulp.dest(G.buildFolder)
+				G.gulp.src(G.globPaths.static_src, { cwd: G.srcFolder, allowEmpty: true }),
+				G.gulp.dest(G.developFolder)
 			], function(err) {
 				if (err) throw err;
 				done();
 			});
 		},
-		vueComponents: function(done) {
-			pump([
-				G.gulp.src(G.globPaths.vue_comp_src, { base: G.srcFolder }),
-				G.gulp.dest(G.buildFolder)
-			], function(err) {
-				if (err) throw err;
-				done();
-			});
-		},
-		nodeModulesToVendor: function(done) {
+		nodeModulesToVendor: function() {
 			var rjsConfig = require("../modules.json"),
-				dest = G.gulp.dest(G.buildVendorFolder),
+				dest = G.gulp.dest(G.developVendorFolder),
 				scripts = [],
 				refs = {};
 			for (var moduleName in rjsConfig) {
@@ -42,8 +27,8 @@ var G = require("../Gulpfile"),
 				scripts.push(path.join(G.root, script));
 				refs[baseName] = moduleName;
 			}
-			pump([
-				G.gulp.src(scripts, { base: G.root }),
+			return pump([
+				G.gulp.src(scripts, { base: G.root, allowEmpty: true }),
 				flatten(),
 				rename(function (p) {
 					p.basename = refs[p.basename + p.extname]; // << moduleName reference
@@ -51,31 +36,19 @@ var G = require("../Gulpfile"),
 				dest
 			], function(err) {
 				if (err) throw err;
-				done();
-				G.emit("task-module-map-copy-end", dest);
 			});
 		}
 	},
 	copyTasksRelease = {
-		html: function(done) {
-			pump([
-				G.gulp.src(G.globPaths.html_src, { base: G.srcFolder }),
+		statics: function() {
+			return pump([
+				G.gulp.src(G.globPaths.static_src, { cwd: G.srcFolder, allowEmpty: true }),
 				G.gulp.dest(G.releaseFolder)
 			], function(err) {
 				if (err) throw err;
-				done();
 			});
 		},
-		vueComponents: function(done) {
-			pump([
-				G.gulp.src(G.globPaths.vue_comp_src, { base: G.srcFolder }),
-				G.gulp.dest(G.releaseFolder)
-			], function(err) {
-				if (err) throw err;
-				done();
-			});
-		},
-		nodeModulesToVendor: function(done) {
+		nodeModulesToVendor: function() {
 			var rjsConfig = require("../modules.json"),
 				dest = G.gulp.dest(G.releaseVendorFolder),
 				scripts = [],
@@ -87,44 +60,30 @@ var G = require("../Gulpfile"),
 				scripts.push(path.join(G.root, script))
 				refs[baseName] = moduleName;
 			}
-			pump([
-				G.gulp.src(scripts, { base: G.root }),
+			return pump([
+				G.gulp.src(scripts, { base: G.root, allowEmpty: true }),
 				flatten(),
 				rename(function (p) {
 					p.basename = refs[p.basename + p.extname]; // << moduleName reference
 				}),
 				dest
-			], function(err) {
+			], (err) => {
 				if (err) throw err;
-				done();
-				G.emit("task-module-map-copy-end", dest);
 			});
 		}
 	};
 
-G.gulp.task("copy:vue-files", copyTasks.vueComponents);
-G.gulp.task("copy:vue-files:release", copyTasksRelease.vueComponents);
-
-G.gulp.task("copy:node-modules-vendor", copyTasks.nodeModulesToVendor);
+G.gulp.task("copy:node-modules-vendor", copyTasksDevelop.nodeModulesToVendor);
 G.gulp.task("copy:node-modules-vendor:release", copyTasksRelease.nodeModulesToVendor);
 
-G.gulp.task("copy:html:clean", copyTasks.html_clean);
-G.gulp.task("copy:html", ["copy:html:clean"], copyTasks.html);
-G.gulp.task("copy:html:release", copyTasksRelease.html);
+G.gulp.task("copy:statics:develop:clean", copyTasksDevelop.statics_clean);
+G.gulp.task("copy:statics:develop:copy", copyTasksDevelop.statics);
+G.gulp.task("copy:statics:develop", G.gulp.series(["copy:statics:develop:clean", "copy:statics:develop:copy"]));
+G.gulp.task("copy:statics:release", copyTasksRelease.statics);
 
-G.gulp.task("copy", function(done) {
-	seq("copy:html", "copy:node-modules-vendor", "copy:vue-files", function(err) {
-		if (err) throw err;
-		done();
-	});
-});
-G.gulp.task("copy:release", function(done) {
-	seq("copy:html:release", "copy:node-modules-vendor:release", "copy:vue-files:release", function(err) {
-		if (err) throw err;
-		done();
-	});
-});
+G.gulp.task("copy", G.gulp.series(["copy:statics:develop", "copy:node-modules-vendor"]));
+G.gulp.task("copy:release", G.gulp.series(["copy:statics:release", "copy:node-modules-vendor:release"]));
 
 console.log("DONE - gulp-copy.js");
 
-module.exports = copyTasks;
+module.exports = copyTasksDevelop;

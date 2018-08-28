@@ -1,34 +1,33 @@
-var G = require("../Gulpfile"),
+let G = require("../GulpConfig"),
 	del = require("del"),
-	seq = require("gulp-sequence");
+	launchDevServer = (done) => {
+		let devConfig = G.proxy
+			? { proxy: G.proxyDev }
+			: {
+				server: {
+					baseDir: G.developFolder
+				}
+			};
+		G.browserSync.init(devConfig, function() {
+			done();
+			G.emit("dev-server-running");
+		});
+	},
+	launchReleaseServer = (done) => {
+		G.browserSync.init({
+			server: {
+				baseDir: G.releaseFolder
+			}
+		}, function() {
+			done();
+			G.emit("task-preview-server-ready");
+		});
+	};
 
-G.gulp.task("dev-server:clean", function(done) {
-	del([G.buildFolder]).then(function() {
-		done();
-	});
-});
-G.gulp.task("dev-prepare", function(done) {
-	seq("dev-server:clean", "copy", "requirejs:module-map", "sass", "ts-compile", done);
-});
-G.gulp.task("dev-server", ["dev-prepare"], function(done) {
-	G.browserSync.init({
-		server: {
-			baseDir: G.buildFolder
-		}
-	}, function() {
-		done();
-		G.emit("task-dev-server-ready");
-	});
-});
-G.gulp.task("preview-server", function(done) {
-	G.browserSync.init({
-		server: {
-			baseDir: G.releaseFolder
-		}
-	}, function() {
-		done();
-		G.emit("task-preview-server-ready");
-	});
-});
+G.gulp.task("dev-server:clean", () => del([G.developFolder], { force: true }));
+G.gulp.task("dev-prepare", G.gulp.series(["dev-server:clean", "copy", "requirejs:module-map", "sass", "sass-bundles", "ts-compile"]));
+G.gulp.task("dev-server-launch", launchDevServer);
+G.gulp.task("dev-server", G.gulp.series(["dev-prepare", "dev-server-launch"]));
+G.gulp.task("preview-server", launchReleaseServer);
 console.log("DONE - gulp-bs.js");
 module.exports = "browser-sync-task";

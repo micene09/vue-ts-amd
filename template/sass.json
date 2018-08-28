@@ -1,0 +1,15 @@
+{
+	"global_watch": [
+		"./src/components/**/*.scss",
+		"./src/views/**/*.scss"
+	],
+	"bundles": [
+		{
+			"entry": "./src/main.scss",
+			"watch": [
+				"./src/main.scss",
+				"./src/style/**/**.scss"
+			]
+		}
+	]
+}

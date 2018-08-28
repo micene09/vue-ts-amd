@@ -4,11 +4,11 @@ import "css!./main.css";
 import "./require.config";
 import Navbar from "./components/navbar/navbar";
 
-Vue.use(VueRouter);
+Vue.use(VueRouter as any);
 
 new Vue({
 	el: "#app-main",
-	router: new VueRouter({
+	router: new (VueRouter as any)({
 		linkActiveClass: "active",
 		routes: [
 			{

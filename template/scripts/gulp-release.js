@@ -1,24 +1,9 @@
-var G = require("../Gulpfile"),
-	del = require("del"),
-	seq = require("gulp-sequence");
+var G = require("../GulpConfig"),
+	del = require("del");
 
-G.gulp.task("release:clean", function(done) {
-	del([G.releaseFolder]).then(function() {
-		done();
-	});
-});
-G.gulp.task("release", function(done) {
-	seq("release:clean", "ts-compile-min", "copy:release", "requirejs:module-map:release", "sass-min", function(err) {
-		if (err) throw err;
-		done();
-	});
-});
-G.gulp.task("release-preview", function(done) {
-	seq("release", "preview-server", function(err) {
-		if (err) throw err;
-		done();
-	});
-});
+G.gulp.task("release:clean", () => del([G.releaseFolder], { force: true }));
+G.gulp.task("release", G.gulp.series(["release:clean", "ts-compile-min", "copy:release", "requirejs:module-map:release", "sass-min", "sass-bundles-min"]));
+G.gulp.task("release-preview", G.gulp.series(["release", "preview-server"]));
 
 console.log("DONE - gulp-release.js");
 module.exports = "gulp-release";

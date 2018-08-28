@@ -1,5 +1,4 @@
-var G = require("../Gulpfile"),
-	rjsConfig = require("../modules.json"),
+var G = require("../GulpConfig"),
 	path = require("path"),
 	fs = require('fs'),
 	glob = require('glob'),
@@ -7,14 +6,14 @@ var G = require("../Gulpfile"),
 	templateFile = path.join(__dirname, "gulp-modules-map.tpl"),
 	compiled = _.template(fs.readFileSync(templateFile)),
 	finalName = "require.vendor.js",
-	devFilePath = path.join(G.buildFolder, finalName),
+	devFilePath = path.join(G.developFolder, finalName),
 	relFilePath = path.join(G.releaseFolder, finalName),
 	mapGenerate  = {
-		dev: function(done) {
-			glob( G.buildVendorFolder + "*.js", function(err, files) {
+		dev: (done) => {
+			glob( G.developVendorFolder + "*.js", (err, files) => {
 				if (err) throw err;
 				var mapObject = {};
-				files.forEach(function(file) {
+				files.forEach((file) => {
 					var moduleName = path.basename(file).replace(".js", "");
 					var modulePath = G.vendorUrl + moduleName;
 					mapObject[moduleName] = modulePath;
@@ -24,17 +23,14 @@ var G = require("../Gulpfile"),
 						baseUrl: G.baseUrl,
 						paths: JSON.stringify(mapObject)
 					}
-				), function(err) {
-					if (err) throw err;
-					done();
-				});
+				), done);
 			});
 		},
-		release: function(done) {
-			glob( G.releaseVendorFolder + "*.js", function(err, files) {
+		release: (done) => {
+			glob( G.releaseVendorFolder + "*.js", (err, files) => {
 				if (err) throw err;
 				var mapObject = {};
-				files.forEach(function(file) {
+				files.forEach((file) => {
 					var moduleName = path.basename(file).replace(".js", "");
 					var modulePath = G.vendorUrl + moduleName;
 					mapObject[moduleName] = modulePath;
@@ -44,10 +40,7 @@ var G = require("../Gulpfile"),
 						baseUrl: G.baseUrl,
 						paths: JSON.stringify(mapObject)
 					}
-				), function(err) {
-					if (err) throw err;
-					done();
-				});
+				), done);
 			});
 		}
 	};

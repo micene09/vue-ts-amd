@@ -1,4 +1,4 @@
-var G = require("../Gulpfile"),
+var G = require("../GulpConfig"),
 	path = require("path"),
 	tsconfig = path.join( G.root, "tsconfig.json" ),
 	ts = require('gulp-typescript'),
@@ -6,43 +6,55 @@ var G = require("../Gulpfile"),
 	pump = require("pump"),
 	sourcemaps = require("gulp-sourcemaps"),
 	tsTasks = {
-		compile: function(done) {
+		compileSingle: (file) => {
 			var tsProject = ts.createProject(tsconfig, {
 					baseUrl: G.baseUrl,
 				}),
-				dest = G.gulp.dest(G.buildFolder),
-				tsCompiling = G.gulp.src(G.globPaths.ts)
+				failed = false,
+				dest = G.gulp.dest(G.developFolder),
+				tsCompiling = G.gulp.src(file, { base: G.srcFolder, cwd: G.srcFolder })
 					.pipe(sourcemaps.init())
 					.pipe( tsProject() )
+					.on("error", (err) => G.emit("compile-error", err) && (failed = true))
 					.js.pipe(sourcemaps.write());
-			pump([
+			return pump([
 				tsCompiling,
 				dest
-			], function(err) {
-				if (err) throw err;
-				done();
-				G.emit("task-ts-compiled", dest);
-			});
+			], () => !failed && G.browserSync.reload(file));
 		},
-		compileMin: function(done) {
+		compile: () => {
+			var tsProject = ts.createProject(tsconfig, {
+					baseUrl: G.baseUrl,
+				}),
+				failed = false,
+				dest = G.gulp.dest(G.developFolder),
+				tsCompiling = G.gulp.src(G.globPaths.ts, { cwd: G.srcFolder })
+					.pipe(sourcemaps.init())
+					.pipe( tsProject() )
+					.on("error", (err) => G.emit("compile-error", err) && (failed = true))
+					.js.pipe(sourcemaps.write());
+			return pump([
+				tsCompiling,
+				dest
+			], () => !failed && G.browserSync.reload());
+		},
+		compileMin: () => {
 			var tsProject = ts.createProject(tsconfig, {
 					baseUrl: G.baseUrl,
 					removeComments: true
 				}),
+				failed = false,
 				dest = G.gulp.dest(G.releaseFolder),
-				tsCompiling = G.gulp.src(G.globPaths.ts)
+				tsCompiling = G.gulp.src(G.globPaths.ts, { cwd: G.srcFolder })
 					//.pipe(sourcemaps.init())
 					.pipe(tsProject())
+					.on("error", (err) => G.emit("compile-error", err) && (failed = true))
 					.js.pipe(uglify())
 					//.pipe(sourcemaps.write());
-			pump([
+			return pump([
 				tsCompiling,
 				dest
-			], function(err) {
-				if (err) throw err;
-				done();
-				G.emit("task-ts-compiled", dest);
-			});
+			], () => !failed && G.browserSync.reload());
 		}
 	};
 G.gulp.task('ts-compile', tsTasks.compile);
