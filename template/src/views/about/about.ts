@@ -15,7 +15,7 @@ export default class AboutComponent extends Vue {
 	mounted() {
 		if (!downloaded) {
 			downloaded = true;
-			console.info("About view downloaded");
+			console.info("About view (and dependencies) downloaded");
 		}
 	}
 }

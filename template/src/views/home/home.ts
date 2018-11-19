@@ -17,7 +17,7 @@ export default class HomeComponent extends Vue {
 	mounted() {
 		if (!downloaded) {
 			downloaded = true;
-			console.info("Home view downloaded");
+			console.info("Home view (and dependencies) downloaded");
 		}
 	}
 }
