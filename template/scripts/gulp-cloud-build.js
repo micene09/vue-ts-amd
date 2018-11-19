@@ -1,8 +1,7 @@
-var G = require("../GulpConfig");
+const G = require("../GulpConfig");
 
-G.gulp.task("cloud-build", () => {
-	if (G.developFolder == G.releaseFolder)
-		throw new Error("'developFolder' and 'releaseFolder' parameters cannot be the same.");
-	else return G.gulp.series(["dev-prepare", "release"]);
-});
+G.gulp.task("cloud-build", G.gulp.series(["dev-prepare", "release"]));
+
+console.log("DONE - gulp-cloud-build.js");
+
 module.exports = "cloud-build-task";

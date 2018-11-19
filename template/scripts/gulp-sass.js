@@ -10,6 +10,7 @@ var G = require("../GulpConfig"),
 				sourcemaps.init(),
 				sass().on('error', (err) => {
 					G.emit("compile-error", err);
+					sass.logError(err);
 				}),
 				sourcemaps.write(),
 				dest
@@ -22,6 +23,7 @@ var G = require("../GulpConfig"),
 				G.gulp.src([filePath], { base: G.srcFolder }),
 				sass().on('error', (err) => {
 					G.emit("compile-error", err);
+					sass.logError(err);
 				}),
 				dest
 			]);
@@ -45,6 +47,7 @@ var G = require("../GulpConfig"),
 					.pipe(sourcemaps.init())
 					.pipe(sass().on('error', (err) => {
 						G.emit("compile-error", err);
+						sass.logError(err);
 					}))
 					.pipe(sourcemaps.write())
 					.pipe(dest);
@@ -56,6 +59,7 @@ var G = require("../GulpConfig"),
 				task = G.gulp.src(G.globPaths.sass.map(pattern => path.resolve(pattern)), { base: G.srcFolder, cwd: G.srcFolder })
 					.pipe(sass().on('error', (err) => {
 						G.emit("compile-error", err);
+						sass.logError(err);
 					}))
 					.pipe(dest);
 			return task;
