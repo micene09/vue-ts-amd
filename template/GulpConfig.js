@@ -13,7 +13,7 @@ class GulpConfig extends EventEmitter {
 		this.modulesUrl = config.modulesUrl || "/modules/";
 
 		this.srcFolder = path.resolve(config.srcFolder || "./src");
-		this.developFolder = path.resolve(config.developFolder || "./develop");
+		this.developFolder = path.resolve(config.developFolder || "./build");
 		this.releaseFolder = path.resolve(config.releaseFolder || "./release");
 
 		this.proxyDev = null//config.proxyDev || "https://localhost:5000";

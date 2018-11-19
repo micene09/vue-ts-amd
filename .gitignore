@@ -1,6 +1,6 @@
 .vscode
 node_modules
-template/develop
+template/build
 template/release
 template/coverage
 *.code-workspace
