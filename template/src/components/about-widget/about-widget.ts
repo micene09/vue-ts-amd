@@ -1,4 +1,5 @@
-import { Vue, Component } from "vue-property-decorator";
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
 import "text!./about-widget.html";
 import "css!./about-widget.css";
 

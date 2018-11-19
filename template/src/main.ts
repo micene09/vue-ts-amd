@@ -1,32 +1,29 @@
-import { Vue } from "vue-property-decorator";
-import * as VueRouter from "vue-router";
+import Vue from "vue";
+import VueRouter from "vue-router";
 import "css!./main.css";
 import "./require.config";
-import Navbar from "./components/navbar/navbar";
 
-Vue.use(VueRouter as any);
+Vue.use(VueRouter);
 
 new Vue({
 	el: "#app-main",
-	router: new (VueRouter as any)({
+	router: new VueRouter({
 		linkActiveClass: "active",
+		mode: "history",
+		base: "/",
 		routes: [
 			{
 				path: "/",
-				component: function(resolve: any) {
-					require(["./views/home/home"], resolve);
-				}
+				component: () => import("./views/home/home")
 			},
 			{
 				path: "/about",
-				component: function(resolve: any) {
-					require(["./views/about/about"], resolve);
-				}
+				component: () => import("./views/about/about")
 			}
 		]
 	}),
 	components: {
-		navbar: Navbar
+		navbar: () => import("./components/navbar/navbar")
 	}
 });
 

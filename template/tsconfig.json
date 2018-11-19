@@ -10,6 +10,7 @@
 		"noUnusedLocals": false,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
 		"emitDecoratorMetadata": true,
 		"skipLibCheck": true,
 		"types": [ "requirejs", "mocha", "chai" ]

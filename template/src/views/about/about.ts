@@ -1,6 +1,9 @@
-import { Vue, Component } from "vue-property-decorator";
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
 import "text!./about.html";
 import AboutWidget from "../../components/about-widget/about-widget";
+
+let downloaded = false;
 
 @Component({
 	template: require("text!./about.html"),
@@ -10,6 +13,9 @@ import AboutWidget from "../../components/about-widget/about-widget";
 })
 export default class AboutComponent extends Vue {
 	mounted() {
-		console.log("about is mounted!");
+		if (!downloaded) {
+			downloaded = true;
+			console.info("About view downloaded");
+		}
 	}
 }

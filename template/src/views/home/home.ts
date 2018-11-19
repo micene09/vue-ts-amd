@@ -1,6 +1,9 @@
-import { Vue, Component, Prop } from "vue-property-decorator";
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 import "text!./home.html";
 import "css!./home.css";
+
+let downloaded = false;
 
 @Component({
 	template: require("text!./home.html")
@@ -12,6 +15,9 @@ export default class HomeComponent extends Vue {
 	helloMsg = "Entirely done using AMD " + this.homeName + "!";
 
 	mounted() {
-		console.log("home is mounted!");
+		if (!downloaded) {
+			downloaded = true;
+			console.info("Home view downloaded");
+		}
 	}
 }

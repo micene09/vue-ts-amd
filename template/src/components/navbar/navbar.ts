@@ -1,4 +1,5 @@
-import { Component, Prop, Vue } from "vue-property-decorator";
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
 import "text!./navbar.html";
 
 interface LinkClass {
