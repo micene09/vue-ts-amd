@@ -2,7 +2,7 @@
 	"compilerOptions": {
 		"module": "amd",
 		"moduleResolution": "node",
-		"target": "es2015",
+		"target": "esnext",
 		"baseUrl": ".",
 		"outDir": "./release/",
 		"sourceMap": true,
