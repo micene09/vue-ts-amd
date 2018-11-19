@@ -9,17 +9,18 @@ class GulpConfig extends EventEmitter {
 		this.root = __dirname;
 
 		this.baseUrl = config.baseUrl || ".";
-		this.vendorUrl = config.vendorUrl || "/vendor/";
+		this.modulesConfigFile = "require.modules.js";
+		this.modulesUrl = config.modulesUrl || "/modules/";
 
 		this.srcFolder = path.resolve(config.srcFolder || "./src");
-		this.developFolder = path.resolve(config.developFolder || "./debug");
+		this.developFolder = path.resolve(config.developFolder || "./develop");
 		this.releaseFolder = path.resolve(config.releaseFolder || "./release");
 
 		this.proxyDev = null//config.proxyDev || "https://localhost:5000";
 
 		this.browserSync =  require('browser-sync').create();
-		this.developVendorFolder = path.join( this.developFolder, this.vendorUrl );
-		this.releaseVendorFolder = path.join( this.releaseFolder, this.vendorUrl );
+		this.developModulesFolder = path.join( this.developFolder, this.modulesUrl );
+		this.releaseModulesFolder = path.join( this.releaseFolder, this.modulesUrl );
 
 		this.sassConfig = require(config.sassConfig || "./sass.json");
 		this.sass_bundles = this.sassConfig.bundles.map((bundle) => {

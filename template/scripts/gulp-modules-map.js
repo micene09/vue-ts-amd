@@ -12,7 +12,7 @@ var G = require("../GulpConfig"),
 	copyModules = (mode) => {
 		modulesReference = [];
 		var rjsConfig = require("../modules.json"),
-			dest = G.gulp.dest(mode === "dev" ? G.developVendorFolder : G.releaseVendorFolder),
+			dest = G.gulp.dest(mode === "dev" ? G.developModulesFolder : G.releaseModulesFolder),
 			scripts = [];
 		for (var moduleName in rjsConfig) {
 			var m = rjsConfig[moduleName],
@@ -45,11 +45,11 @@ var G = require("../GulpConfig"),
 		});
 	},
 	mapGenerate = (done, mode) => {
-		let finalName = "require.vendor.js",
+		let finalName = G.modulesConfigFile,
 			targetPath = mode === "dev" ? path.join(G.developFolder, finalName) : path.join(G.releaseFolder, finalName),
 			mapObject = {};
 		modulesReference.forEach(x => {
-			mapObject[x.moduleName] = "/vendor/" + x.moduleFile;
+			mapObject[x.moduleName] = G.modulesUrl + x.moduleFile;
 		});
 		fs.writeFile(targetPath, template({ baseUrl: G.baseUrl, paths: JSON.stringify(mapObject) }
 		), done);
@@ -58,11 +58,11 @@ var G = require("../GulpConfig"),
 G.gulp.task("requirejs:copy-modules", () => copyModules("dev"));
 G.gulp.task("requirejs:copy-modules:release", copyModules);
 
-G.gulp.task("requirejs:vendor-file", (done) => mapGenerate(done, "dev"));
-G.gulp.task("requirejs:vendor-file:release", mapGenerate);
+G.gulp.task("requirejs:modules-file", (done) => mapGenerate(done, "dev"));
+G.gulp.task("requirejs:modules-file:release", mapGenerate);
 
-G.gulp.task("requirejs:module-map", G.gulp.series(["requirejs:copy-modules", "requirejs:vendor-file"]));
-G.gulp.task("requirejs:module-map:release", G.gulp.series(["requirejs:copy-modules:release", "requirejs:vendor-file:release"]));
+G.gulp.task("requirejs:module-map", G.gulp.series(["requirejs:copy-modules", "requirejs:modules-file"]));
+G.gulp.task("requirejs:module-map:release", G.gulp.series(["requirejs:copy-modules:release", "requirejs:modules-file:release"]));
 
 console.log("DONE - gulp-modules-map.js");
 module.exports = mapGenerate;
